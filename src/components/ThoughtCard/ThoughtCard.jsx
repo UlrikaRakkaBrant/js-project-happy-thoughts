@@ -1,74 +1,25 @@
-import React from 'react';
-import styled from 'styled-components';
-import PropTypes from 'prop-types';
+import { Card, Text, Footer, HeartBtn, Count, Time } from "./ThoughtCard.styles";
 
-const Card = styled.div`
-  background: #fff;
-  padding: 24px;
-  border: 1px solid #e0e0e0;
-  border-radius: 8px;
-  box-shadow: 8px 8px 0 rgba(0, 0, 0, 0.1);
-  margin-bottom: 24px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-`;
+function timeAgo(date) {
+  const diff = Math.floor((Date.now() - new Date(date).getTime()) / 1000);
+  if (diff < 60) return `${diff} second${diff === 1 ? "" : "s"} ago`;
+  const m = Math.floor(diff / 60);
+  if (m < 60) return `${m} minute${m === 1 ? "" : "s"} ago`;
+  const h = Math.floor(m / 60);
+  return `${h} hour${h === 1 ? "" : "s"} ago`;
+}
 
-const Content = styled.div`
-  max-width: 80%;
-`;
-
-const Message = styled.p`
-  font-size: 16px;
-  margin-bottom: 12px;
-  line-height: 1.4;
-`;
-
-const Meta = styled.div`
-  font-size: 12px;
-  color: #999;
-  text-align: right;
-`;
-
-const HeartButton = styled.button`
-  background: none;
-  border: none;
-  cursor: pointer;
-  font-size: 20px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-
-  & span {
-    margin-top: 4px;
-    font-size: 14px;
-    color: #333;
-  }
-`;
-
-function ThoughtCard({ thought, onLike }) {
+export default function ThoughtCard({ message, hearts, createdAt, onHeart }) {
   return (
-    <Card>
-      <Content>
-        <Message>{thought.message}</Message>
-        <Meta>{new Date(thought.createdAt).toLocaleTimeString()}</Meta>
-      </Content>
-      <HeartButton onClick={onLike}>
-        ❤️
-        <span>x {thought.hearts}</span>
-      </HeartButton>
+    <Card className="card">
+      <Text>{message}</Text>
+      <Footer>
+        <HeartBtn type="button" onClick={onHeart} aria-label="Send heart">
+          <span aria-hidden>❤️</span>
+        </HeartBtn>
+        <Count>x {hearts}</Count>
+        <Time>{timeAgo(createdAt)}</Time>
+      </Footer>
     </Card>
   );
 }
-
-ThoughtCard.propTypes = {
-  thought: PropTypes.shape({
-    _id: PropTypes.string.isRequired,
-    message: PropTypes.string.isRequired,
-    hearts: PropTypes.number.isRequired,
-    createdAt: PropTypes.string.isRequired,
-  }).isRequired,
-  onLike: PropTypes.func.isRequired,
-};
-
-export default ThoughtCard;
