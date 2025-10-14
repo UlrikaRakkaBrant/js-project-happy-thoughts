@@ -8,7 +8,7 @@ import {
   SubmitBtn,
 } from "./ThoughtForm.styles";
 
-export default function ThoughtForm({ onSubmit }) {
+export default function ThoughtForm({ onSubmit, submitting = false }) {
   const [text, setText] = useState("");
   const maxLen = 140;
   const remaining = maxLen - text.length;
@@ -24,17 +24,10 @@ export default function ThoughtForm({ onSubmit }) {
 
   return (
     <FormWrap className="card" onSubmit={handleSubmit} aria-label="Happy Thought form">
-      <FormHeader>What’s making you happy right now?</FormHeader>
-      <TextArea
-        value={text}
-        onChange={(e) => setText(e.target.value)}
-        placeholder="React is making me happy!"
-        maxLength={maxLen + 20} // allow a bit more typing but we validate
-        aria-invalid={tooShort || tooLong}
-      />
+      {/* ... */}
       <Row>
-        <SubmitBtn type="submit" disabled={tooShort || tooLong}>
-          ❤️ Send Happy Thought ❤️
+        <SubmitBtn type="submit" disabled={submitting || tooShort || tooLong}>
+          {submitting ? "Sending..." : "❤️ Send Happy Thought ❤️"}
         </SubmitBtn>
         <Counter data-too-long={tooLong}>
           {remaining >= 0 ? `${remaining}` : `-${Math.abs(remaining)}`} / {maxLen}

@@ -9,16 +9,16 @@ function timeAgo(date) {
   return `${h} hour${h === 1 ? "" : "s"} ago`;
 }
 
-export default function ThoughtCard({ message, hearts, createdAt, onHeart }) {
+export default function ThoughtCard({ message, hearts, createdAt, onHeart, disabled = false }) {
   return (
     <Card className="card">
       <Text>{message}</Text>
       <Footer>
-        <HeartBtn type="button" onClick={onHeart} aria-label="Send heart">
+        <HeartBtn type="button" onClick={onHeart} aria-label="Send heart" disabled={disabled}>
           <span aria-hidden>❤️</span>
         </HeartBtn>
         <Count>x {hearts}</Count>
-        <Time>{timeAgo(createdAt)}</Time>
+        <Time dateTime={new Date(createdAt).toISOString()}>{timeAgo(createdAt)}</Time>
       </Footer>
     </Card>
   );

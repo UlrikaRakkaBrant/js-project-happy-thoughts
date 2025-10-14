@@ -3,49 +3,85 @@ import ThoughtForm from "./components/ThoughtForm/ThoughtForm.jsx";
 import ThoughtCard from "./components/ThoughtCard/ThoughtCard.jsx";
 import Loader from "./components/Loader/Loader.jsx";
 import GlobalStyles from "./styles/GlobalStyles.js";
+import { fetchThoughts, createThought, likeThought } from "./services/api.js";
 
 export default function App() {
   const [thoughts, setThoughts] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);      // initial page loader
+  const [submitting, setSubmitting] = useState(false); // form submit loader
+  const [likingIds, setLikingIds] = useState(new Set()); // per-card like loader
 
-  // Demo data to show layout; replace with API calls later
+  // ---- Lifecycle: run once on mount (componentDidMount)
   useEffect(() => {
-    setLoading(true);
-    setTimeout(() => {
-      setThoughts([
-        { id: "a1", message: "I’m happy because we just moved into a new apartment!", hearts: 0, createdAt: new Date() },
-        { id: "b2", message: "It’s my birthday!!!", hearts: 10, createdAt: new Date(Date.now() - 10 * 60 * 1000) },
-      ]);
-      setLoading(false);
-    }, 500);
+    (async () => {
+      try {
+        setLoading(true);
+        const data = await fetchThoughts();
+        // latest first (API already does this, but keep it explicit)
+        setThoughts(data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)));
+      } catch (e) {
+        console.error(e);
+        alert("Could not load thoughts. Please try again.");
+      } finally {
+        setLoading(false);
+      }
+    })();
   }, []);
 
-  function addThought(text) {
-    const t = { id: crypto.randomUUID(), message: text, hearts: 0, createdAt: new Date() };
-    setThoughts((prev) => [t, ...prev]);
+  // ---- Create a new thought (validate maintained by your form)
+  async function addThought(text) {
+    try {
+      setSubmitting(true);
+      const newThought = await createThought(text);
+      setThoughts(prev => [newThought, ...prev]); // prepend (optimistic via API response)
+    } catch (e) {
+      console.error(e);
+      alert(e.message || "Could not post your thought.");
+    } finally {
+      setSubmitting(false);
+    }
   }
 
-  function likeThought(id) {
-    setThoughts((prev) =>
-      prev.map((t) => (t.id === id ? { ...t, hearts: t.hearts + 1 } : t))
-    );
+  // ---- Like a thought (optimistic UI + rollback on error)
+  async function handleHeart(id) {
+    // optimistic bump
+    setThoughts(prev => prev.map(t => (t._id === id ? { ...t, hearts: t.hearts + 1 } : t)));
+    setLikingIds(prev => new Set(prev).add(id));
+
+    try {
+      await likeThought(id);
+      // If API returns updated doc you could merge it here (not required)
+    } catch (e) {
+      console.error(e);
+      // rollback
+      setThoughts(prev => prev.map(t => (t._id === id ? { ...t, hearts: t.hearts - 1 } : t)));
+      alert("Could not send a heart. Try again.");
+    } finally {
+      setLikingIds(prev => {
+        const next = new Set(prev);
+        next.delete(id);
+        return next;
+      });
+    }
   }
 
   return (
     <>
       <GlobalStyles />
       <main>
-        <ThoughtForm onSubmit={addThought} />
+        <ThoughtForm onSubmit={addThought} submitting={submitting} />
         <Loader show={loading} />
-        {thoughts.map((t) => (
-          <ThoughtCard
-            key={t.id}
-            message={t.message}
-            hearts={t.hearts}
-            createdAt={t.createdAt}
-            onHeart={() => likeThought(t.id)}
-          />
-        ))}
+        {!loading &&
+          thoughts.map((t) => (
+            <ThoughtCard
+              key={t._id}
+              message={t.message}
+              hearts={t.hearts}
+              createdAt={t.createdAt}
+              onHeart={() => handleHeart(t._id)}
+              disabled={likingIds.has(t._id)}
+            />
+          ))}
       </main>
     </>
   );
