@@ -21,12 +21,15 @@ export default function App() {
         setThoughts(data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)));
       } catch (e) {
         console.error(e);
-        alert("Could not load thoughts. Please try again.");
+        alert(
+          "The Happy Thoughts API is currently unavailable (503). You can keep working with mock data — flip USE_MOCK to true in src/services/apiBase.js."
+        );
       } finally {
         setLoading(false);
       }
     })();
   }, []);
+
 
   // ---- Create a new thought (validate maintained by your form)
   async function addThought(text) {
