@@ -4,6 +4,7 @@ import ThoughtCard from "./components/ThoughtCard/ThoughtCard.jsx";
 import Loader from "./components/Loader/Loader.jsx";
 import GlobalStyles from "./styles/GlobalStyles.js";
 import { fetchThoughts, createThought, likeThought } from "./services/api.js";
+import MockBanner from "./components/MockBanner/MockBanner.jsx";
 
 export default function App() {
   const [thoughts, setThoughts] = useState([]);
@@ -71,6 +72,7 @@ export default function App() {
   return (
     <>
       <GlobalStyles />
+      <MockBanner />   {/* 👈 shows only when USE_MOCK = true */}
       <main>
         <ThoughtForm onSubmit={addThought} submitting={submitting} />
         <Loader show={loading} />
@@ -88,4 +90,3 @@ export default function App() {
       </main>
     </>
   );
-}
