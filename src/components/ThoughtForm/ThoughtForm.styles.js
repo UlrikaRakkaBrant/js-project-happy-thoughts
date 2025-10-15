@@ -4,7 +4,6 @@ export const FormWrap = styled.form`
   padding: 16px;
   background: var(--form-bg);
   border: 1px solid var(--border);
-  /* border-radius: var(--radius); */
   box-shadow: var(--card-shadow);
   display: grid;
   gap: 12px;

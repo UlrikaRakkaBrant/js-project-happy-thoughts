@@ -38,7 +38,6 @@ const GlobalStyles = createGlobalStyle`
   .card {
     background: var(--card-bg);
     border: 1px solid var(--border);
-    border-radius: var(--radius);
     box-shadow: var(--card-shadow);
   }
 `;

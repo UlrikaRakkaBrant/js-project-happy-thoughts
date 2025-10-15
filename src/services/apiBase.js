@@ -3,6 +3,6 @@
 
 // true = use fake data for development
 // false = use the real Happy Thoughts API through the Vite proxy
-export const USE_MOCK = false;
+export const USE_MOCK = true;
 
 export const API_BASE = "/api"; // Vite proxy path
