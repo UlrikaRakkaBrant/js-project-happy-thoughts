@@ -165,10 +165,10 @@ This ensures your deployed app connects to the real API seamlessly.
 
 ## 👩‍💻 Author
 
-Built with 💖, ☕, and a lot of happy thoughts by **Ulrika Einerbrant**  
-Frontend developer passionate about accessible, joyful user experiences.  
+Brewed with 🍵, mixed with 💖, sparked by curiosity — and sprinkled with a bit of AI magic while learning and coding.
+Brought to life by Ulrika Einerbrant, frontend developer crafting calm, accessible, and joyful experiences.
 
-> _“Sharing happiness, one thought at a time.”_
+“Sharing happiness, one thought at a time.”
 
 ---
 
