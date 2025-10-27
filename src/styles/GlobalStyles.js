@@ -5,14 +5,17 @@ const GlobalStyles = createGlobalStyle`
   :root{
     --card-bg: #ffffff;
     --card-shadow: 6px 6px 0 #000000;
-    --form-bg: #f3e9ec;
+    --form-bg: #f3f3f398;           /* light gray for ThoughtForm */
     --text: #222;
     --muted: #666;
     --heart: #ff6b8b;
+    --heart-bg-empty: var(--form-bg);
+    --heart-bg-active: #ff9eb8;   /* same pink as button */
+    --btn-text: #000;             /* black text on the Send button */
     --btn-grad-start:#ff9eb8;
     --btn-grad-end:#ff7fa3;
     --border:#e6dfe2;
-    --radius: 14px;
+    --radius: 0px;
     --gap: 16px;
     --maxw: 680px;
   }

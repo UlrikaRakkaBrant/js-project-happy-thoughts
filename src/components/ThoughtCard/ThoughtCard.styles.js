@@ -21,14 +21,21 @@ export const Footer = styled.div`
 `;
 
 export const HeartBtn = styled.button`
-  width: 36px; height: 36px; padding: 0;
-  border-radius: 50%; border: 1px solid var(--border);
-  background: #fff; display: grid; place-items: center;
-  cursor: pointer; transition: transform .1s ease, opacity .1s ease;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: ${({ $active }) =>
+    $active ? "var(--heart-bg-active)" : "var(--heart-bg-empty)"};
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  transition: transform .1s ease, opacity .1s ease, background-color .1s ease;
+
   &:hover { transform: scale(1.06); }
   &:disabled { opacity: .5; cursor: not-allowed; transform: none; }
 `;
-
 
 export const Count = styled.span`
   color: var(--muted);

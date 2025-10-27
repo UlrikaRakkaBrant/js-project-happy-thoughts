@@ -14,7 +14,13 @@ export default function ThoughtCard({ message, hearts, createdAt, onHeart, disab
     <Card className="card">
       <Text>{message}</Text>
       <Footer>
-        <HeartBtn type="button" onClick={onHeart} aria-label="Send heart" disabled={disabled}>
+        <HeartBtn
+          type="button"
+          onClick={onHeart}
+          aria-label="Send heart"
+          disabled={disabled}
+          $active={hearts > 0}   // 👈 drives fill color
+        >
           <span aria-hidden>❤️</span>
         </HeartBtn>
         <Count>x {hearts}</Count>

@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 export const FormWrap = styled.form`
   padding: 16px;
-  background: var(--form-bg, #f3e9ec);
+  background: var(--form-bg);   /* light gray */
   border: 1px solid var(--border, #e6dfe2);
   border-radius: var(--radius, 14px);
   box-shadow: var(--card-shadow, 6px 6px 0 #000);
@@ -41,7 +41,7 @@ export const SubmitBtn = styled.button`
   padding: 10px 18px;
   border: 0;
   border-radius: 999px;
-  color: #fff;
+  color: var(--btn-text); 
   font-weight: 700;
   cursor: pointer;
   background: linear-gradient(180deg, #ff9eb8, #ff7fa3);
