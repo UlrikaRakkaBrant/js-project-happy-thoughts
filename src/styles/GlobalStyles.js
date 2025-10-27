@@ -5,7 +5,7 @@ const GlobalStyles = createGlobalStyle`
   :root{
     --card-bg: #ffffff;
     --card-shadow: 6px 6px 0 #000000;
-    --form-bg: #f3f3f398;           /* light gray for ThoughtForm */
+    --form-bg: #f0ebebf8;  
     --text: #222;
     --muted: #666;
     --heart: #ff6b8b;
@@ -43,6 +43,8 @@ const GlobalStyles = createGlobalStyle`
     border: 1px solid var(--border);
     box-shadow: var(--card-shadow);
   }
+
+  form.card { background: var(--form-bg); }
 `;
 
 export default GlobalStyles;

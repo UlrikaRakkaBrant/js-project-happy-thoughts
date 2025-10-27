@@ -2,13 +2,14 @@ import styled from "styled-components";
 
 export const FormWrap = styled.form`
   padding: 16px;
-  background: var(--form-bg);   /* light gray */
-  border: 1px solid var(--border, #e6dfe2);
-  border-radius: var(--radius, 14px);
-  box-shadow: var(--card-shadow, 6px 6px 0 #000);
+  background: var(--form-bg);   /* ✅ ensure it uses the variable */
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--card-shadow);
   display: grid;
   gap: 12px;
 `;
+
 
 export const FormHeader = styled.h2`
   margin: 0;
