@@ -2,28 +2,30 @@ import styled from "styled-components";
 
 export const FormWrap = styled.form`
   padding: 16px;
-  background: var(--form-bg);
-  border: 1px solid var(--border);
-  box-shadow: var(--card-shadow);
+  background: var(--form-bg, #f3e9ec);
+  border: 1px solid var(--border, #e6dfe2);
+  border-radius: var(--radius, 14px);
+  box-shadow: var(--card-shadow, 6px 6px 0 #000);
   display: grid;
   gap: 12px;
 `;
 
 export const FormHeader = styled.h2`
-  margin: 0 0 4px;
+  margin: 0;
   font-size: 18px;
   font-weight: 700;
 `;
 
 export const TextArea = styled.textarea`
   width: 100%;
-  min-height: 80px;
+  min-height: 96px;            /* 👈 ensures it’s visible */
   padding: 12px;
   border-radius: 8px;
-  border: 1px solid var(--border);
-  resize: vertical;
-  font: inherit;
+  border: 1px solid var(--border, #e6dfe2);
   background: #fff;
+  font: inherit;
+  resize: vertical;
+
   &:focus { outline: 2px solid #ffd1dd; }
 `;
 
@@ -39,27 +41,20 @@ export const SubmitBtn = styled.button`
   padding: 10px 18px;
   border: 0;
   border-radius: 999px;
-  color: white;
+  color: #fff;
   font-weight: 700;
   cursor: pointer;
-  background: linear-gradient(180deg, var(--btn-grad-start), var(--btn-grad-end));
-  box-shadow: 0 2px 0 rgba(0,0,0,0.15);
-  transition: transform .15s ease, filter .15s ease;
+  background: linear-gradient(180deg, #ff9eb8, #ff7fa3);
+  box-shadow: 0 2px 0 rgba(0,0,0,.15);
+  transition: transform .15s ease, opacity .15s ease;
+
   &:hover { transform: translateY(-1px); }
-  &:disabled {
-    opacity: .5;
-    cursor: not-allowed;
-    transform: none;
-  }
+  &:disabled { opacity: .5; cursor: not-allowed; transform: none; }
 `;
 
 export const Counter = styled.span`
-  font-size: 12px;
-  color: var(--muted);
   margin-left: auto;
-
-  &[data-too-long="true"] {
-    color: #d92d20;
-    font-weight: 700;
-  }
+  font-size: 12px;
+  color: var(--muted, #666);
+  &[data-too-long="true"] { color: #d92d20; font-weight: 700; }
 `;
