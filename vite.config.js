@@ -7,7 +7,7 @@ export default defineConfig({
     proxy: {
       // anything starting with /api will be proxied to the API
       '/api': {
-        target: 'https://happy-thoughts-ux7hkzgmwa-uc.a.run.app',
+        target: 'https://happy-thoughts-api-4ful.onrender.com',
         changeOrigin: true,
         secure: true,
         rewrite: (path) => path.replace(/^\/api/, ''),
