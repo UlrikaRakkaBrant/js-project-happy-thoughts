@@ -1,8 +1,3 @@
-// src/services/apiBase.js
-// This file lets you switch between real API and mock mode
-
-// true = use fake data for development
-// false = use the real Happy Thoughts API through the Vite proxy
-export const USE_MOCK = false;
-
-export const API_BASE = "/api"; // Vite proxy path
+// Use Netlify env in prod, fall back to /api for local dev proxy
+export const API_BASE = import.meta.env.VITE_API_BASE || '/api';
+export const USE_MOCK = false; // toggle if you need offline dev
