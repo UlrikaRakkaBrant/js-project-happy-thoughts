@@ -28,7 +28,7 @@ export const HeartBtn = styled.button`
   height: 36px;
   padding: 0;
   border-radius: 50%;
-  border: 1px solid var(--border-color);
+  border: none;
   background: ${({ $active }) =>
     $active ? "var(--heart-bg-active)" : "var(--heart-bg-empty)"};
   display: grid;

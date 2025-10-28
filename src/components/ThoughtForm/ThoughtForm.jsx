@@ -29,7 +29,7 @@ export default function ThoughtForm({ onSubmit, submitting = false }) {
       <TextArea
         value={text}
         onChange={(e) => setText(e.target.value)}
-        placeholder="React is making me happy!"
+        placeholder="A happy thought goes here."
         aria-invalid={tooShort || tooLong}
       />
 

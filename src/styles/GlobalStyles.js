@@ -5,8 +5,8 @@ const GlobalStyles = createGlobalStyle`
   :root {
     /* 🎨 Color system */
     --card-bg: #ffffff;           /* Thought cards background */
-    --form-bg: #e2dddd;           /* ThoughtForm background (slightly darker gray) */
-    --border-color: #d5d5d5;      /* Neutral gray border */
+    --form-bg: #ebe7e7ff;           /* ThoughtForm background */
+    --border-color: #000000;     /* solid black border */
     --text: #222;                 /* Primary text color */
     --muted: #666;                /* Secondary text color */
     --heart: #ff6b8b;             /* Heart emoji color */
