@@ -12,7 +12,7 @@ Happy Thoughts lets you post short positive messages, like others’ posts, and 
 
 ## 🖼️ Preview
 
-![Happy Thoughts app screenshot](./public/screenshot.png)
+![Happy Thoughts app screenshot](./public/screenshot.jpg)
 
 ---
 
