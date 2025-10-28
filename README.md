@@ -8,7 +8,6 @@ Happy Thoughts lets you post short positive messages, like others’ posts, and 
 
 🌐 **Live demo:** [https://thinkhappy.netlify.app](https://thinkhappy.netlify.app)
 
-
 ---
 
 ## 🖼️ Preview
