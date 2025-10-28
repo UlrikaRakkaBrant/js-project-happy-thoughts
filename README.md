@@ -4,11 +4,12 @@
 > _“Sharing happiness, one thought at a time.”_
 
 A joyful mini social feed built with **React**, **Vite**, and **styled-components**.  
-Happy Thoughts lets you post short positive messages, like others’ posts, and spread a little sunshine around the internet.  
+Happy Thoughts lets you post short positive messages, like others’ posts, and spread a bit of joy.
 
 🌐 **Live demo:** [https://thinkhappy.netlify.app](https://thinkhappy.netlify.app)
 
----
+
+---git add
 
 ## 🖼️ Preview
 
