@@ -4,6 +4,9 @@ export const Card = styled.article`
   padding: 18px;
   display: grid;
   gap: 14px;
+  background: var(--card-bg);              /* white background */
+  border: 2px solid var(--border-color);   /* thicker border */
+  box-shadow: var(--card-shadow);
 `;
 
 export const Text = styled.p`
@@ -25,16 +28,22 @@ export const HeartBtn = styled.button`
   height: 36px;
   padding: 0;
   border-radius: 50%;
-  border: 1px solid var(--border);
+  border: 1px solid var(--border-color);
   background: ${({ $active }) =>
     $active ? "var(--heart-bg-active)" : "var(--heart-bg-empty)"};
   display: grid;
   place-items: center;
   cursor: pointer;
-  transition: transform .1s ease, opacity .1s ease, background-color .1s ease;
+  transition: transform 0.1s ease, opacity 0.1s ease, background-color 0.1s ease;
 
-  &:hover { transform: scale(1.06); }
-  &:disabled { opacity: .5; cursor: not-allowed; transform: none; }
+  &:hover {
+    transform: scale(1.06);
+  }
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+  }
 `;
 
 export const Count = styled.span`
