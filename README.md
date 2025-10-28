@@ -6,7 +6,7 @@
 A joyful mini social feed built with **React**, **Vite**, and **styled-components**.  
 Happy Thoughts lets you post short positive messages, like others’ posts, and spread a little sunshine around the internet.  
 
-🌐 **Live demo:** [https://thinkhappy.netlify.app/](https://thinkhappy.netlify.app/)
+🌐 **Live demo:** [https://thinkhappy.netlify.app](https://thinkhappy.netlify.app)
 
 ---
 
@@ -165,10 +165,10 @@ This ensures your deployed app connects to the real API seamlessly.
 
 ## 👩‍💻 Author
 
-Brewed with 🍵, mixed with 💖, sparked by curiosity — and sprinkled with a bit of AI magic while learning and coding.
-Brought to life by Ulrika Einerbrant, frontend developer crafting calm, accessible, and joyful experiences.
+Built with 💖, ☕, and a lot of happy thoughts by **Ulrika Einerbrant**  
+Frontend developer passionate about accessible, joyful user experiences.  
 
-“Sharing happiness, one thought at a time.”
+> _“Sharing happiness, one thought at a time.”_
 
 ---
 
@@ -180,7 +180,7 @@ This project is open source and available under the **MIT License**.
 
 ## 💫 Connect
 
-🔗 **Live app:** [happysparks.netlify.app](https://thinkhappy.netlify.app/)  
+🔗 **Live app:** [thinkhappy.netlify.app](https://thinkhappy.netlify.app)  
 💻 **GitHub repo:** [github.com/ulrikaeinerbrant/happy-thoughts](https://github.com/ulrikaeinerbrant/happy-thoughts)  
 🧭 **Portfolio:** [ulrikasportfolio.netlify.app](https://ulrikasportfolio.netlify.app/)  
 💼 **LinkedIn:** [ulrika-einebrant](https://www.linkedin.com/in/ulrika-einebrant/)
