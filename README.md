@@ -1,4 +1,4 @@
-```markdown
+markdown
 # 💖 Happy Thoughts
 
 > _“Sharing happiness, one thought at a time.”_
@@ -184,4 +184,3 @@ This project is open source and available under the **MIT License**.
 💻 **GitHub repo:** [github.com/ulrikaeinerbrant/happy-thoughts](https://github.com/ulrikaeinerbrant/happy-thoughts)  
 🧭 **Portfolio:** [ulrikasportfolio.netlify.app](https://ulrikasportfolio.netlify.app/)  
 💼 **LinkedIn:** [ulrika-einebrant](https://www.linkedin.com/in/ulrika-einebrant/)
-```
