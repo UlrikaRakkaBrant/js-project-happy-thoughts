@@ -24,7 +24,7 @@ Happy Thoughts lets you post short positive messages, like others’ posts, and 
 - 🔄 Auto-refresh after posting new thoughts  
 - 🧭 Mock mode for offline development  
 - 💡 Clean, responsive, and accessible design  
-- 🚀 Deployed on Netlify with working API proxy  
+- 🚀 Deployed on Netlify and connected to a public Happy Thoughts API  
 
 ---
 
@@ -38,26 +38,6 @@ Happy Thoughts lets you post short positive messages, like others’ posts, and 
 | ☁️ Netlify | Hosting and build |
 | 🧩 Render | Public Happy Thoughts API |
 | 🧪 ESLint + Vite | Developer experience and linting |
-
----
-
-## 🗂️ Folder Structure
-
-src/
-  components/
-    Loader/
-    MockBanner/
-    ThoughtCard/
-    ThoughtForm/
-  services/
-    api.js
-    apiBase.js
-    mock.js
-  styles/
-  App.jsx
-  main.jsx
-public/
-index.html
 
 ---
 
@@ -80,6 +60,8 @@ App runs at **http://localhost:5173**
 
 ## 🔗 API
 
+This app uses a **public Happy Thoughts API**:
+
 Base URL:  
 https://happy-thoughts-api-4ful.onrender.com
 
@@ -88,8 +70,6 @@ Method | Endpoint | Description
 GET | /thoughts | Fetch latest 20 thoughts
 POST | /thoughts | Post a new thought
 POST | /thoughts/:id/like | Like a thought
-
-🪄 All requests use the local `/api` proxy during development (see vite.config.js).
 
 ---
 
@@ -124,12 +104,7 @@ Build command: npm run build
 Publish directory: dist  
 Base directory: *(leave empty)*
 
-_redirects file (in project root)
-```
-/api/*  https://happy-thoughts-api-4ful.onrender.com/:splat  200
-```
-
-This ensures your deployed app connects to the real API seamlessly.
+No proxy or redirects are required.
 
 ---
 
@@ -165,8 +140,8 @@ This ensures your deployed app connects to the real API seamlessly.
 
 ## 👩‍💻 Author
 
-Built with 💖, ☕, and a lot of happy thoughts by **Ulrika Einerbrant**  
-Frontend developer passionate about accessible, joyful user experiences.  
+Built with 💖, ☕, curiosity, and collaborative help from **ChatGPT** by **Ulrika Einerbrant**.  
+Frontend developer passionate about accessible, joyful user experiences.
 
 > _“Sharing happiness, one thought at a time.”_
 
