@@ -9,22 +9,55 @@ function timeAgo(date) {
   return `${h} hour${h === 1 ? "" : "s"} ago`;
 }
 
-export default function ThoughtCard({ message, hearts, createdAt, onHeart, disabled = false }) {
+export default function ThoughtCard({
+  message,
+  hearts,
+  createdAt,
+  author,
+  onHeart,
+  disabled = false,
+  canEdit = false,
+  onDelete,
+  onEdit,
+}) {
+  const isActive = hearts > 0; // drives heart background color
+
   return (
     <Card className="card">
       <Text>{message}</Text>
+      {author && (
+        <p>
+          <strong>{author}</strong>
+        </p>
+      )}
       <Footer>
         <HeartBtn
           type="button"
           onClick={onHeart}
           aria-label="Send heart"
           disabled={disabled}
-          $active={hearts > 0}   // 👈 drives fill color
+          $active={isActive}
         >
           <span aria-hidden>❤️</span>
         </HeartBtn>
         <Count>x {hearts}</Count>
-        <Time dateTime={new Date(createdAt).toISOString()}>{timeAgo(createdAt)}</Time>
+        <Time dateTime={new Date(createdAt).toISOString()}>
+          {timeAgo(createdAt)}
+        </Time>
+        {canEdit && (
+          <>
+            {onEdit && (
+              <button type="button" onClick={onEdit}>
+                Edit
+              </button>
+            )}
+            {onDelete && (
+              <button type="button" onClick={onDelete}>
+                Delete
+              </button>
+            )}
+          </>
+        )}
       </Footer>
     </Card>
   );
