@@ -13,7 +13,7 @@ import {
 } from "./services/api.js";
 import MockBanner from "./components/MockBanner/MockBanner.jsx";
 import AuthForm from "./components/Auth/AuthForm.jsx";
-import { useAuth } from "./hooks/useAuth.js";
+import { useAuth } from "./hooks/useAuth";
 
 export default function App() {
   const { user, isLoggedIn } = useAuth();
