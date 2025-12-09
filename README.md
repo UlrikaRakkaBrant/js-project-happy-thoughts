@@ -88,20 +88,22 @@ server: {
 
 ---
 
+```markdown
 ### 🧠 Mock Mode (Offline Development)
 
 When the API is down, you can still work with local fake data.
 
-```js
+\`\`\`js
 // src/services/apiBase.js
 export const USE_MOCK = true;   // switch ON mock mode
 export const API_BASE = "/api"; // used only for local proxy
+\`\`\`
 
-Default in this repo:
-USE_MOCK = false (the app uses the real public API).
+**Default in this repo:**  
+`USE_MOCK = false` (the app uses the real public API).
 
-If you want to develop offline:
-Set USE_MOCK = true to load mock data instead of calling the real API.
+**If you want to develop offline:**  
+Set `USE_MOCK = true` to load mock data instead of calling the real API.
 
 ---
 
