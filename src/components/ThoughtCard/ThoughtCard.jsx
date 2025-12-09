@@ -20,16 +20,13 @@ export default function ThoughtCard({
   onDelete,
   onEdit,
 }) {
-  const isActive = hearts > 0; // drives heart background color
+  const isActive = hearts > 0;
 
   return (
     <Card className="card">
       <Text>{message}</Text>
-      {author && (
-        <p>
-          <strong>{author}</strong>
-        </p>
-      )}
+      {author && <p><strong>{author}</strong></p>}
+
       <Footer>
         <HeartBtn
           type="button"
@@ -40,21 +37,20 @@ export default function ThoughtCard({
         >
           <span aria-hidden>❤️</span>
         </HeartBtn>
+
         <Count>x {hearts}</Count>
+
         <Time dateTime={new Date(createdAt).toISOString()}>
           {timeAgo(createdAt)}
         </Time>
+
         {canEdit && (
           <>
             {onEdit && (
-              <button type="button" onClick={onEdit}>
-                Edit
-              </button>
-            )}
+              <button type="button" onClick={onEdit}>Edit</button>
+            )}S
             {onDelete && (
-              <button type="button" onClick={onDelete}>
-                Delete
-              </button>
+              <button type="button" onClick={onDelete}>Delete</button>
             )}
           </>
         )}
