@@ -5,7 +5,7 @@ export const Card = styled.article`
   display: grid;
   gap: 14px;
   background: var(--card-bg);              /* white background */
-  border: 2px solid var(--border-color);   /* thicker border */
+  border: 2px solid var(--border);         /* thicker border */
   box-shadow: var(--card-shadow);
 `;
 
