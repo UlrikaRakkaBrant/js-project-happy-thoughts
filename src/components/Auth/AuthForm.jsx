@@ -1,11 +1,9 @@
 // src/components/Auth/AuthForm.jsx
 import { useState } from "react";
-import styled, { keyframes, css } from "styled-components";
+import styled, { keyframes } from "styled-components";
 import { useAuth } from "../../hooks/useAuth";
 
-/* ---------------- Animations ---------------- */
-
-const shakeFrames = keyframes`
+const shake = keyframes`
   0%, 100% { transform: translateX(0); }
   20% { transform: translateX(-6px); }
   40% { transform: translateX(6px); }
@@ -13,24 +11,17 @@ const shakeFrames = keyframes`
   80% { transform: translateX(4px); }
 `;
 
-const shake = css`
-  animation: ${shakeFrames} 0.35s ease;
-`;
-
-/* ---------------- Styles ---------------- */
-
 const Wrapper = styled.section`
-  max-width: 520px;
+  max-width: 500px;
   margin: 0 auto 32px auto;
-  padding: 18px;
+  padding: 20px;
+  border: 2px solid var(--border-color);
+  background: var(--card-bg);
+  box-shadow: var(--card-shadow);
   display: grid;
   gap: 16px;
 
-  background: var(--card-bg);
-  border: 2px solid var(--border-color);
-  box-shadow: var(--card-shadow);
-
-  ${({ $shake }) => $shake && shake}
+  ${({ $error }) => $error && `animation: ${shake} 0.35s ease;`}
 `;
 
 const Row = styled.div`
@@ -44,12 +35,9 @@ const Label = styled.label`
 
 const Input = styled.input`
   padding: 10px;
+  border: 2px solid ${({ $error }) => ($error ? "#c00" : "var(--border-color)")};
+  background: ${({ $error }) => ($error ? "#ffe5e5" : "white")};
   font-size: 16px;
-  background: white;
-  border-radius: 0;
-
-  border: 2px solid
-    ${({ $error }) => ($error ? "#c00" : "var(--border-color)")};
 `;
 
 const ButtonRow = styled.div`
@@ -59,11 +47,10 @@ const ButtonRow = styled.div`
 
 const Button = styled.button`
   padding: 10px 14px;
-  font-weight: 600;
-  cursor: pointer;
-
   border: 2px solid var(--border-color);
   background: var(--heart-bg-active);
+  cursor: pointer;
+  font-weight: 600;
 
   &:disabled {
     opacity: 0.5;
@@ -73,8 +60,8 @@ const Button = styled.button`
 
 const Error = styled.p`
   color: #c00;
-  font-weight: 600;
   margin: 0;
+  font-weight: 600;
 `;
 
 const Success = styled.p`
@@ -83,47 +70,38 @@ const Success = styled.p`
   margin: 0;
 `;
 
-/* ---------------- Component ---------------- */
-
 export default function AuthForm() {
-  const {
-    login,
-    signup,
-    authError,
-    authLoading,
-    isLoggedIn,
-    user,
-    logout,
-  } = useAuth();
+  const { login, signup, authError, authLoading, isLoggedIn, user, logout } =
+    useAuth();
 
   const [form, setForm] = useState({ username: "", password: "" });
-  const [justSignedIn, setJustSignedIn] = useState(false);
-  const [shakeForm, setShakeForm] = useState(false);
-
-  // Detect backend “username exists” error
-  const usernameExists =
-    authError?.toLowerCase().includes("already exists");
+  const [successMsg, setSuccessMsg] = useState("");
 
   function handleChange(e) {
     setForm({ ...form, [e.target.name]: e.target.value });
-    setJustSignedIn(false);
-    setShakeForm(false);
+    setSuccessMsg(""); // clear success when typing
   }
 
   async function handleLogin(e) {
     e.preventDefault();
-    setShakeForm(false);
-    await login(form);
-    if (!authError) setJustSignedIn(true);
-    else setShakeForm(true);
+    setSuccessMsg("");
+    try {
+      await login(form);
+      setSuccessMsg(`🎉 Welcome back, ${form.username}!`);
+    } catch {
+      // error handled in context
+    }
   }
 
   async function handleSignup(e) {
     e.preventDefault();
-    setShakeForm(false);
-    await signup(form);
-    if (!authError) setJustSignedIn(true);
-    else setShakeForm(true);
+    setSuccessMsg("");
+    try {
+      await signup(form);
+      setSuccessMsg(`🎉 Welcome, ${form.username}!`);
+    } catch {
+      // error handled in context
+    }
   }
 
   if (isLoggedIn) {
@@ -140,18 +118,15 @@ export default function AuthForm() {
   }
 
   return (
-    <Wrapper $shake={shakeForm}>
+    <Wrapper $error={!!authError}>
       <h2>Login or sign up</h2>
 
-      {justSignedIn && (
-        <Success>🎉 Welcome, {form.username}!</Success>
-      )}
+      {successMsg && <Success>{successMsg}</Success>}
 
       <form>
         <Row>
-          <Label htmlFor="username">Username</Label>
+          <Label>Username</Label>
           <Input
-            id="username"
             name="username"
             value={form.username}
             onChange={handleChange}
@@ -160,9 +135,8 @@ export default function AuthForm() {
         </Row>
 
         <Row>
-          <Label htmlFor="password">Password</Label>
+          <Label>Password</Label>
           <Input
-            id="password"
             name="password"
             type="password"
             value={form.password}
@@ -174,25 +148,11 @@ export default function AuthForm() {
         {authError && <Error>{authError}</Error>}
 
         <ButtonRow>
-          <Button
-            type="submit"
-            onClick={handleLogin}
-            disabled={authLoading}
-          >
-            {authLoading ? "Logging in..." : "Log in"}
+          <Button onClick={handleLogin} disabled={authLoading}>
+            Log in
           </Button>
-
-          <Button
-            type="button"
-            onClick={handleSignup}
-            disabled={authLoading || usernameExists}
-            title={
-              usernameExists
-                ? "That username already exists"
-                : ""
-            }
-          >
-            {authLoading ? "Signing up..." : "Sign up"}
+          <Button onClick={handleSignup} disabled={authLoading}>
+            Sign up
           </Button>
         </ButtonRow>
       </form>
