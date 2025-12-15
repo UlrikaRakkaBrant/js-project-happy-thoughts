@@ -65,7 +65,6 @@ export function AuthProvider({ children }) {
     }
   }
 
-  // ✅ THIS WAS THE MISSING / BROKEN PIECE
   function logout() {
     setUser(null);
     setToken(null);
@@ -81,7 +80,7 @@ export function AuthProvider({ children }) {
     authLoading,
     login,
     signup,
-    logout, // ✅ now defined
+    logout,
     isLoggedIn: !!token,
   };
 
