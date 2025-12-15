@@ -1,8 +1,9 @@
 // src/components/Auth/AuthForm.jsx
 import { useState } from "react";
-import styled, { keyframes } from "styled-components";
+import styled, { keyframes, css } from "styled-components";
 import { useAuth } from "../../hooks/useAuth";
 
+// --- Shake animation ---
 const shake = keyframes`
   0%, 100% { transform: translateX(0); }
   20% { transform: translateX(-6px); }
@@ -21,7 +22,11 @@ const Wrapper = styled.section`
   display: grid;
   gap: 16px;
 
-  ${({ $error }) => $error && `animation: ${shake} 0.35s ease;`}
+  ${({ $error }) =>
+    $error &&
+    css`
+      animation: ${shake} 0.35s ease;
+    `}
 `;
 
 const Row = styled.div`
@@ -79,7 +84,7 @@ export default function AuthForm() {
 
   function handleChange(e) {
     setForm({ ...form, [e.target.name]: e.target.value });
-    setSuccessMsg(""); // clear success when typing
+    setSuccessMsg("");
   }
 
   async function handleLogin(e) {
@@ -88,9 +93,7 @@ export default function AuthForm() {
     try {
       await login(form);
       setSuccessMsg(`🎉 Welcome back, ${form.username}!`);
-    } catch {
-      // error handled in context
-    }
+    } catch { }
   }
 
   async function handleSignup(e) {
@@ -99,9 +102,7 @@ export default function AuthForm() {
     try {
       await signup(form);
       setSuccessMsg(`🎉 Welcome, ${form.username}!`);
-    } catch {
-      // error handled in context
-    }
+    } catch { }
   }
 
   if (isLoggedIn) {
@@ -122,6 +123,7 @@ export default function AuthForm() {
       <h2>Login or sign up</h2>
 
       {successMsg && <Success>{successMsg}</Success>}
+      {authError && <Error>{authError}</Error>}
 
       <form>
         <Row>
@@ -144,8 +146,6 @@ export default function AuthForm() {
             $error={!!authError}
           />
         </Row>
-
-        {authError && <Error>{authError}</Error>}
 
         <ButtonRow>
           <Button onClick={handleLogin} disabled={authLoading}>
