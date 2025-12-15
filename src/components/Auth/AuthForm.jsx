@@ -4,17 +4,19 @@ import styled from "styled-components";
 import { useAuth } from "../../hooks/useAuth";
 
 const Wrapper = styled.section`
-  padding: 16px;
-  margin-bottom: 24px;
-  border: 2px solid #000;
-  background: #fdf5f7;
+  max-width: 500px;
+  margin: 0 auto 32px auto;
+  padding: 20px;
+  border: 2px solid var(--border-color);
+  background: var(--card-bg);
+  box-shadow: var(--card-shadow);
   display: grid;
-  gap: 12px;
+  gap: 16px;
 `;
 
 const Row = styled.div`
   display: grid;
-  gap: 4px;
+  gap: 6px;
 `;
 
 const Label = styled.label`
@@ -22,21 +24,37 @@ const Label = styled.label`
 `;
 
 const Input = styled.input`
-  padding: 8px;
-  border: 1px solid #000;
+  padding: 10px;
+  border: 2px solid var(--border-color);
   border-radius: 0;
+  background: white;
+  font-size: 16px;
+
+  &:focus {
+    outline: 2px solid var(--heart-bg-active);
+  }
 `;
 
 const ButtonRow = styled.div`
   display: flex;
-  gap: 8px;
+  gap: 10px;
 `;
 
 const Button = styled.button`
-  padding: 8px 12px;
-  border: 1px solid #000;
-  background: #ff9eb8;
+  padding: 10px 14px;
+  border: 2px solid var(--border-color);
+  background: var(--heart-bg-active);
   cursor: pointer;
+  font-weight: 600;
+
+  &:hover {
+    background: var(--heart-bg-empty);
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
 `;
 
 const Error = styled.p`
@@ -45,7 +63,9 @@ const Error = styled.p`
 `;
 
 export default function AuthForm() {
-  const { login, signup, authError, authLoading, isLoggedIn, user, logout } = useAuth();
+  const { login, signup, authError, authLoading, isLoggedIn, user, logout } =
+    useAuth();
+
   const [form, setForm] = useState({ username: "", password: "" });
 
   function handleChange(e) {
@@ -65,15 +85,20 @@ export default function AuthForm() {
   if (isLoggedIn) {
     return (
       <Wrapper>
-        <p>Logged in as <strong>{user?.username}</strong></p>
-        <Button type="button" onClick={logout}>Log out</Button>
+        <p>
+          Logged in as <strong>{user?.username}</strong>
+        </p>
+        <Button type="button" onClick={logout}>
+          Log out
+        </Button>
       </Wrapper>
     );
   }
 
   return (
     <Wrapper>
-      <h2>Login or sign up</h2>
+      <h2 style={{ margin: 0 }}>Login or sign up</h2>
+
       <form>
         <Row>
           <Label htmlFor="username">Username</Label>
@@ -84,6 +109,7 @@ export default function AuthForm() {
             onChange={handleChange}
           />
         </Row>
+
         <Row>
           <Label htmlFor="password">Password</Label>
           <Input
@@ -94,11 +120,14 @@ export default function AuthForm() {
             onChange={handleChange}
           />
         </Row>
+
         {authError && <Error>{authError}</Error>}
+
         <ButtonRow>
           <Button type="submit" onClick={handleLogin} disabled={authLoading}>
             {authLoading ? "Logging in..." : "Log in"}
           </Button>
+
           <Button type="button" onClick={handleSignup} disabled={authLoading}>
             {authLoading ? "Signing up..." : "Sign up"}
           </Button>

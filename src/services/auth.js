@@ -1,6 +1,11 @@
 // src/services/auth.js
 import { API_BASE } from "./apiBase";
 
+// helper to extract meaningful backend errors
+function extractError(data, fallback) {
+  return data?.error || data?.message || fallback;
+}
+
 export async function signup({ username, password }) {
   const res = await fetch(`${API_BASE}/auth/signup`, {
     method: "POST",
@@ -11,7 +16,7 @@ export async function signup({ username, password }) {
   const data = await res.json().catch(() => ({}));
 
   if (!res.ok) {
-    throw new Error(data.message || "Signup failed");
+    throw new Error(extractError(data, "Signup failed"));
   }
 
   // expected: { userId, username, token }
@@ -28,7 +33,7 @@ export async function login({ username, password }) {
   const data = await res.json().catch(() => ({}));
 
   if (!res.ok) {
-    throw new Error(data.message || "Login failed");
+    throw new Error(extractError(data, "Login failed"));
   }
 
   return data;
