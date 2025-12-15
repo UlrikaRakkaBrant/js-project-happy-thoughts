@@ -1,16 +1,23 @@
 // src/components/Auth/AuthForm.jsx
 import { useState } from "react";
-import styled, { keyframes } from "styled-components";
+import styled, { keyframes, css } from "styled-components";
 import { useAuth } from "../../hooks/useAuth";
 
-// --- Shake animation when auth fails ---
-const shake = keyframes`
+/* ------------------ Animations ------------------ */
+
+const shakeFrames = keyframes`
   0%, 100% { transform: translateX(0); }
   20% { transform: translateX(-6px); }
   40% { transform: translateX(6px); }
   60% { transform: translateX(-4px); }
   80% { transform: translateX(4px); }
 `;
+
+const shake = css`
+  animation: ${shakeFrames} 0.35s ease;
+`;
+
+/* ------------------ Styled components ------------------ */
 
 const Wrapper = styled.section`
   max-width: 500px;
@@ -22,8 +29,7 @@ const Wrapper = styled.section`
   display: grid;
   gap: 16px;
 
-  /* Shake when there's an error */
-  ${({ $error }) => $error && `animation: ${shake} 0.35s ease;`}
+  ${({ $error }) => $error && shake}
 `;
 
 const Row = styled.div`
@@ -37,8 +43,8 @@ const Label = styled.label`
 
 const Input = styled.input`
   padding: 10px;
-  border: 2px solid
-    ${({ $error }) => ($error ? "#c00" : "var(--border-color)")};
+  border: 2px solid ${({ $error }) =>
+    $error ? "#c00" : "var(--border-color)"};
   background: ${({ $error }) => ($error ? "#ffe5e5" : "white")};
   border-radius: 0;
   font-size: 16px;
@@ -68,16 +74,25 @@ const Error = styled.p`
   font-weight: 600;
 `;
 
-// A small green success message
 const Success = styled.p`
   color: #0a7a0a;
   font-weight: 600;
-  margin: 0 0 8px 0;
+  margin: 0;
 `;
 
+/* ------------------ Component ------------------ */
+
 export default function AuthForm() {
-  const { login, signup, authError, authLoading, isLoggedIn, user, logout } =
-    useAuth();
+  const {
+    login,
+    signup,
+    authError,
+    authLoading,
+    isLoggedIn,
+    user,
+    logout,
+  } = useAuth();
+
   const [form, setForm] = useState({ username: "", password: "" });
   const [justSignedIn, setJustSignedIn] = useState(false);
 
@@ -105,7 +120,9 @@ export default function AuthForm() {
         <p>
           Logged in as <strong>{user?.username}</strong>
         </p>
-        <Button type="button" onClick={logout}>Log out</Button>
+        <Button type="button" onClick={logout}>
+          Log out
+        </Button>
       </Wrapper>
     );
   }
