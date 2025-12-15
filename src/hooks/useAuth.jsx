@@ -10,10 +10,11 @@ export function AuthProvider({ children }) {
   const [authError, setAuthError] = useState("");
   const [authLoading, setAuthLoading] = useState(false);
 
-  // load from localStorage once
+  // Load auth from localStorage on mount
   useEffect(() => {
     const storedToken = localStorage.getItem("token");
     const storedUser = localStorage.getItem("user");
+
     if (storedToken && storedUser) {
       setToken(storedToken);
       try {
@@ -34,35 +35,41 @@ export function AuthProvider({ children }) {
     localStorage.setItem("user", JSON.stringify(userObj));
   }
 
-  async function handleLogin({ username, password }) {
+  async function login({ username, password }) {
     setAuthError("");
     setAuthLoading(true);
     try {
       const data = await apiLogin({ username, password });
       saveAuth(data);
+      return data;
     } catch (e) {
       setAuthError(e.message);
+      throw e;
     } finally {
       setAuthLoading(false);
     }
   }
 
-  async function handleSignup({ username, password }) {
+  async function signup({ username, password }) {
     setAuthError("");
     setAuthLoading(true);
     try {
       const data = await apiSignup({ username, password });
       saveAuth(data);
+      return data;
     } catch (e) {
       setAuthError(e.message);
+      throw e;
     } finally {
       setAuthLoading(false);
     }
   }
 
+  // ✅ THIS WAS THE MISSING / BROKEN PIECE
   function logout() {
     setUser(null);
     setToken(null);
+    setAuthError("");
     localStorage.removeItem("token");
     localStorage.removeItem("user");
   }
@@ -72,9 +79,9 @@ export function AuthProvider({ children }) {
     token,
     authError,
     authLoading,
-    login: handleLogin,
-    signup: handleSignup,
-    logout,
+    login,
+    signup,
+    logout, // ✅ now defined
     isLoggedIn: !!token,
   };
 
@@ -83,6 +90,8 @@ export function AuthProvider({ children }) {
 
 export function useAuth() {
   const ctx = useContext(AuthContext);
-  if (!ctx) throw new Error("useAuth must be used inside AuthProvider");
+  if (!ctx) {
+    throw new Error("useAuth must be used inside AuthProvider");
+  }
   return ctx;
 }

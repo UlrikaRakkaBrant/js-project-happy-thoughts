@@ -1,16 +1,7 @@
 // src/components/Auth/AuthForm.jsx
 import { useState } from "react";
-import styled, { keyframes, css } from "styled-components";
+import styled from "styled-components";
 import { useAuth } from "../../hooks/useAuth";
-
-// --- Shake animation ---
-const shake = keyframes`
-  0%, 100% { transform: translateX(0); }
-  20% { transform: translateX(-6px); }
-  40% { transform: translateX(6px); }
-  60% { transform: translateX(-4px); }
-  80% { transform: translateX(4px); }
-`;
 
 const Wrapper = styled.section`
   max-width: 500px;
@@ -21,12 +12,6 @@ const Wrapper = styled.section`
   box-shadow: var(--card-shadow);
   display: grid;
   gap: 16px;
-
-  ${({ $error }) =>
-    $error &&
-    css`
-      animation: ${shake} 0.35s ease;
-    `}
 `;
 
 const Row = styled.div`
@@ -40,7 +25,8 @@ const Label = styled.label`
 
 const Input = styled.input`
   padding: 10px;
-  border: 2px solid ${({ $error }) => ($error ? "#c00" : "var(--border-color)")};
+  border: 2px solid ${({ $error }) =>
+    $error ? "#c00" : "var(--border-color)"};
   background: ${({ $error }) => ($error ? "#ffe5e5" : "white")};
   font-size: 16px;
 `;
@@ -71,13 +57,20 @@ const Error = styled.p`
 
 const Success = styled.p`
   color: #0a7a0a;
-  font-weight: 600;
   margin: 0;
+  font-weight: 600;
 `;
 
 export default function AuthForm() {
-  const { login, signup, authError, authLoading, isLoggedIn, user, logout } =
-    useAuth();
+  const {
+    login,
+    signup,
+    authError,
+    authLoading,
+    isLoggedIn,
+    user,
+    logout,
+  } = useAuth();
 
   const [form, setForm] = useState({ username: "", password: "" });
   const [successMsg, setSuccessMsg] = useState("");
@@ -93,7 +86,9 @@ export default function AuthForm() {
     try {
       await login(form);
       setSuccessMsg(`🎉 Welcome back, ${form.username}!`);
-    } catch { }
+    } catch {
+      // error handled in context
+    }
   }
 
   async function handleSignup(e) {
@@ -102,16 +97,23 @@ export default function AuthForm() {
     try {
       await signup(form);
       setSuccessMsg(`🎉 Welcome, ${form.username}!`);
-    } catch { }
+    } catch {
+      // error handled in context
+    }
+  }
+
+  function handleLogout() {
+    logout();
+    setSuccessMsg("");
   }
 
   if (isLoggedIn) {
     return (
       <Wrapper>
         <p>
-          Logged in as <strong>{user?.username}</strong>
+          Logged in as <strong>{user.username}</strong>
         </p>
-        <Button type="button" onClick={logout}>
+        <Button type="button" onClick={handleLogout}>
           Log out
         </Button>
       </Wrapper>
@@ -119,7 +121,7 @@ export default function AuthForm() {
   }
 
   return (
-    <Wrapper $error={!!authError}>
+    <Wrapper>
       <h2>Login or sign up</h2>
 
       {successMsg && <Success>{successMsg}</Success>}
@@ -127,9 +129,11 @@ export default function AuthForm() {
 
       <form>
         <Row>
-          <Label>Username</Label>
+          <Label htmlFor="username">Username</Label>
           <Input
+            id="username"
             name="username"
+            autoComplete="username"
             value={form.username}
             onChange={handleChange}
             $error={!!authError}
@@ -137,10 +141,12 @@ export default function AuthForm() {
         </Row>
 
         <Row>
-          <Label>Password</Label>
+          <Label htmlFor="password">Password</Label>
           <Input
+            id="password"
             name="password"
             type="password"
+            autoComplete="current-password"
             value={form.password}
             onChange={handleChange}
             $error={!!authError}
@@ -148,11 +154,12 @@ export default function AuthForm() {
         </Row>
 
         <ButtonRow>
-          <Button onClick={handleLogin} disabled={authLoading}>
-            Log in
+          <Button type="submit" onClick={handleLogin} disabled={authLoading}>
+            {authLoading ? "Logging in..." : "Log in"}
           </Button>
-          <Button onClick={handleSignup} disabled={authLoading}>
-            Sign up
+
+          <Button type="button" onClick={handleSignup} disabled={authLoading}>
+            {authLoading ? "Signing up..." : "Sign up"}
           </Button>
         </ButtonRow>
       </form>
