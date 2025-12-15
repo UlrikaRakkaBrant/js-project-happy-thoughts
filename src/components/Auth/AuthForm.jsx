@@ -4,14 +4,20 @@ import styled from "styled-components";
 import { useAuth } from "../../hooks/useAuth";
 
 const Wrapper = styled.section`
-  max-width: 500px;
-  margin: 0 auto 32px auto;
-  padding: 20px;
+  padding: 16px;
+  margin: 0 auto 32px;
+  background: var(--form-bg);
   border: 2px solid var(--border-color);
-  background: var(--card-bg);
+  border-radius: var(--radius);
   box-shadow: var(--card-shadow);
   display: grid;
-  gap: 16px;
+  gap: 12px;
+`;
+
+const Header = styled.h2`
+  margin: 0 0 4px;
+  font-size: 18px;
+  font-weight: 700;
 `;
 
 const Row = styled.div`
@@ -24,35 +30,55 @@ const Label = styled.label`
 `;
 
 const Input = styled.input`
-  padding: 10px;
-  border: 2px solid ${({ $error }) =>
-    $error ? "#c00" : "var(--border-color)"};
-  background: ${({ $error }) => ($error ? "#ffe5e5" : "white")};
-  font-size: 16px;
+  width: 100%;
+  padding: 12px;
+  border: 1px solid
+    ${({ $error }) => ($error ? "#c00" : "var(--border-color)")};
+  border-radius: 0;
+  font: inherit;
+  background: ${({ $error }) => ($error ? "#ffe5e5" : "#fff")};
+
+  &:focus {
+    outline: 2px solid #ffd1dd;
+  }
 `;
 
 const ButtonRow = styled.div`
   display: flex;
-  gap: 10px;
+  gap: 12px;
+  flex-wrap: wrap;
 `;
 
 const Button = styled.button`
-  padding: 10px 14px;
-  border: 2px solid var(--border-color);
-  background: var(--heart-bg-active);
+  padding: 10px 18px;
+  border: 0;
+  border-radius: 999px;
+  font-weight: 700;
   cursor: pointer;
-  font-weight: 600;
+  color: var(--btn-text);
+  background: linear-gradient(
+    180deg,
+    var(--btn-grad-start),
+    var(--btn-grad-end)
+  );
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.15);
+  transition: transform 0.15s ease, opacity 0.15s ease;
+
+  &:hover {
+    transform: translateY(-1px);
+  }
 
   &:disabled {
     opacity: 0.5;
     cursor: not-allowed;
+    transform: none;
   }
 `;
 
 const Error = styled.p`
   color: #c00;
   margin: 0;
-  font-weight: 600;
+  font-weight: 700;
 `;
 
 export default function AuthForm() {
@@ -85,6 +111,7 @@ export default function AuthForm() {
   if (isLoggedIn) {
     return (
       <Wrapper>
+        <Header>Account</Header>
         <p>
           Logged in as <strong>{user.username}</strong>
         </p>
@@ -97,7 +124,7 @@ export default function AuthForm() {
 
   return (
     <Wrapper>
-      <h2>Login or sign up</h2>
+      <Header>Login or sign up</Header>
 
       {authError && <Error>{authError}</Error>}
 
