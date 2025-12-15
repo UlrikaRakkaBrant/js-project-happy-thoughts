@@ -3,7 +3,7 @@ import { useState } from "react";
 import styled, { keyframes, css } from "styled-components";
 import { useAuth } from "../../hooks/useAuth";
 
-/* ------------------ Animations ------------------ */
+/* ---------------- Animations ---------------- */
 
 const shakeFrames = keyframes`
   0%, 100% { transform: translateX(0); }
@@ -17,19 +17,20 @@ const shake = css`
   animation: ${shakeFrames} 0.35s ease;
 `;
 
-/* ------------------ Styled components ------------------ */
+/* ---------------- Styles ---------------- */
 
 const Wrapper = styled.section`
-  max-width: 500px;
+  max-width: 520px;
   margin: 0 auto 32px auto;
-  padding: 20px;
-  border: 2px solid var(--border-color);
-  background: var(--card-bg);
-  box-shadow: var(--card-shadow);
+  padding: 18px;
   display: grid;
   gap: 16px;
 
-  ${({ $error }) => $error && shake}
+  background: var(--card-bg);
+  border: 2px solid var(--border-color);
+  box-shadow: var(--card-shadow);
+
+  ${({ $shake }) => $shake && shake}
 `;
 
 const Row = styled.div`
@@ -43,11 +44,12 @@ const Label = styled.label`
 
 const Input = styled.input`
   padding: 10px;
-  border: 2px solid ${({ $error }) =>
-    $error ? "#c00" : "var(--border-color)"};
-  background: ${({ $error }) => ($error ? "#ffe5e5" : "white")};
-  border-radius: 0;
   font-size: 16px;
+  background: white;
+  border-radius: 0;
+
+  border: 2px solid
+    ${({ $error }) => ($error ? "#c00" : "var(--border-color)")};
 `;
 
 const ButtonRow = styled.div`
@@ -57,10 +59,11 @@ const ButtonRow = styled.div`
 
 const Button = styled.button`
   padding: 10px 14px;
+  font-weight: 600;
+  cursor: pointer;
+
   border: 2px solid var(--border-color);
   background: var(--heart-bg-active);
-  cursor: pointer;
-  font-weight: 600;
 
   &:disabled {
     opacity: 0.5;
@@ -70,8 +73,8 @@ const Button = styled.button`
 
 const Error = styled.p`
   color: #c00;
-  margin: 0;
   font-weight: 600;
+  margin: 0;
 `;
 
 const Success = styled.p`
@@ -80,7 +83,7 @@ const Success = styled.p`
   margin: 0;
 `;
 
-/* ------------------ Component ------------------ */
+/* ---------------- Component ---------------- */
 
 export default function AuthForm() {
   const {
@@ -95,23 +98,32 @@ export default function AuthForm() {
 
   const [form, setForm] = useState({ username: "", password: "" });
   const [justSignedIn, setJustSignedIn] = useState(false);
+  const [shakeForm, setShakeForm] = useState(false);
+
+  // Detect backend “username exists” error
+  const usernameExists =
+    authError?.toLowerCase().includes("already exists");
 
   function handleChange(e) {
     setForm({ ...form, [e.target.name]: e.target.value });
+    setJustSignedIn(false);
+    setShakeForm(false);
   }
 
   async function handleLogin(e) {
     e.preventDefault();
-    setJustSignedIn(false);
+    setShakeForm(false);
     await login(form);
     if (!authError) setJustSignedIn(true);
+    else setShakeForm(true);
   }
 
   async function handleSignup(e) {
     e.preventDefault();
-    setJustSignedIn(false);
+    setShakeForm(false);
     await signup(form);
     if (!authError) setJustSignedIn(true);
+    else setShakeForm(true);
   }
 
   if (isLoggedIn) {
@@ -128,11 +140,11 @@ export default function AuthForm() {
   }
 
   return (
-    <Wrapper $error={!!authError}>
+    <Wrapper $shake={shakeForm}>
       <h2>Login or sign up</h2>
 
       {justSignedIn && (
-        <Success>🎉 Welcome, {form.username}! You're now logged in.</Success>
+        <Success>🎉 Welcome, {form.username}!</Success>
       )}
 
       <form>
@@ -162,11 +174,24 @@ export default function AuthForm() {
         {authError && <Error>{authError}</Error>}
 
         <ButtonRow>
-          <Button type="submit" onClick={handleLogin} disabled={authLoading}>
+          <Button
+            type="submit"
+            onClick={handleLogin}
+            disabled={authLoading}
+          >
             {authLoading ? "Logging in..." : "Log in"}
           </Button>
 
-          <Button type="button" onClick={handleSignup} disabled={authLoading}>
+          <Button
+            type="button"
+            onClick={handleSignup}
+            disabled={authLoading || usernameExists}
+            title={
+              usernameExists
+                ? "That username already exists"
+                : ""
+            }
+          >
             {authLoading ? "Signing up..." : "Sign up"}
           </Button>
         </ButtonRow>
