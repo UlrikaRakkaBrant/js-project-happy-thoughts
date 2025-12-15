@@ -1,8 +1,13 @@
 // src/App.jsx
 import { useEffect, useState } from "react";
+import styled from "styled-components";
+
 import ThoughtForm from "./components/ThoughtForm/ThoughtForm.jsx";
 import ThoughtCard from "./components/ThoughtCard/ThoughtCard.jsx";
 import Loader from "./components/Loader/Loader.jsx";
+import AuthForm from "./components/Auth/AuthForm.jsx";
+import MockBanner from "./components/MockBanner/MockBanner.jsx";
+
 import GlobalStyles from "./styles/GlobalStyles.js";
 import {
   fetchThoughts,
@@ -11,9 +16,19 @@ import {
   updateThought,
   deleteThought,
 } from "./services/api.js";
-import MockBanner from "./components/MockBanner/MockBanner.jsx";
-import AuthForm from "./components/Auth/AuthForm.jsx";
+
 import { useAuth } from "./hooks/useAuth";
+
+/* ----------------------------------
+   Layout wrapper
+---------------------------------- */
+const Main = styled.main`
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 24px 16px 48px;
+  display: grid;
+  gap: 24px;
+`;
 
 export default function App() {
   const { user, isLoggedIn } = useAuth();
@@ -23,31 +38,31 @@ export default function App() {
   const [submitting, setSubmitting] = useState(false);
   const [likingIds, setLikingIds] = useState(new Set());
 
-  // ----------------------------
-  // FETCH THOUGHTS ON LOAD
-  // ----------------------------
+  /* ----------------------------------
+     FETCH THOUGHTS
+  ---------------------------------- */
   useEffect(() => {
     (async () => {
       try {
         setLoading(true);
-        const results = await fetchThoughts(); // already returns data.results
+        const results = await fetchThoughts();
         setThoughts(
-          results.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+          results.sort(
+            (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+          )
         );
       } catch (e) {
         console.error(e);
-        alert(
-          "Could not load thoughts. The API may be unavailable. Try again later."
-        );
+        alert("Could not load thoughts. Try again later.");
       } finally {
         setLoading(false);
       }
     })();
   }, []);
 
-  // ----------------------------
-  // CREATE THOUGHT
-  // ----------------------------
+  /* ----------------------------------
+     CREATE THOUGHT
+  ---------------------------------- */
   async function addThought(message) {
     if (!isLoggedIn) {
       alert("You must be logged in to post a thought.");
@@ -59,23 +74,21 @@ export default function App() {
       const newThought = await createThought(message);
       setThoughts((prev) => [newThought, ...prev]);
     } catch (e) {
-      console.error(e);
-      alert(e.message || "Could not post your thought.");
+      alert(e.message || "Could not post thought.");
     } finally {
       setSubmitting(false);
     }
   }
 
-  // ----------------------------
-  // LIKE THOUGHT
-  // ----------------------------
+  /* ----------------------------------
+     LIKE THOUGHT
+  ---------------------------------- */
   async function handleHeart(id) {
     if (!isLoggedIn) {
       alert("You must be logged in to like thoughts.");
       return;
     }
 
-    // optimistic update
     setThoughts((prev) =>
       prev.map((t) =>
         t._id === id ? { ...t, hearts: t.hearts + 1 } : t
@@ -85,15 +98,13 @@ export default function App() {
 
     try {
       await likeThought(id);
-    } catch (e) {
-      console.error(e);
-      // rollback
+    } catch {
       setThoughts((prev) =>
         prev.map((t) =>
           t._id === id ? { ...t, hearts: t.hearts - 1 } : t
         )
       );
-      alert("Could not send a heart. Try again.");
+      alert("Could not send heart.");
     } finally {
       setLikingIds((prev) => {
         const next = new Set(prev);
@@ -103,14 +114,13 @@ export default function App() {
     }
   }
 
-  // ----------------------------
-  // DELETE THOUGHT
-  // ----------------------------
+  /* ----------------------------------
+     DELETE THOUGHT
+  ---------------------------------- */
   async function handleDelete(id) {
     if (!isLoggedIn) return;
 
-    const ok = window.confirm("Delete this thought?");
-    if (!ok) return;
+    if (!window.confirm("Delete this thought?")) return;
 
     try {
       await deleteThought(id);
@@ -120,9 +130,9 @@ export default function App() {
     }
   }
 
-  // ----------------------------
-  // EDIT THOUGHT (simple version)
-  // ----------------------------
+  /* ----------------------------------
+     EDIT THOUGHT
+  ---------------------------------- */
   async function handleEdit(id) {
     const current = thoughts.find((t) => t._id === id);
     const newMessage = window.prompt("Edit your message:", current.message);
@@ -142,17 +152,19 @@ export default function App() {
     }
   }
 
-  // ----------------------------
-  // RENDER
-  // ----------------------------
+  /* ----------------------------------
+     RENDER
+  ---------------------------------- */
   return (
     <>
       <GlobalStyles />
       <MockBanner />
 
-      <main>
+      <Main>
+        {/* Auth always first */}
         <AuthForm />
 
+        {/* Thought form directly below */}
         <ThoughtForm
           onSubmit={addThought}
           submitting={submitting}
@@ -176,7 +188,7 @@ export default function App() {
               onDelete={() => handleDelete(t._id)}
             />
           ))}
-      </main>
+      </Main>
     </>
   );
 }

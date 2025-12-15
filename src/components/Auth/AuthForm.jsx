@@ -2,13 +2,13 @@
 import { useState } from "react";
 import styled from "styled-components";
 import { useAuth } from "../../hooks/useAuth";
+import { Card } from "../../styles/Card";
 
-const Wrapper = styled.section`
-  width: 100%;
-  padding: 16px;
-  background: var(--form-bg);
-  border: 2px solid var(--border-color);
-  box-shadow: var(--card-shadow);
+/* ---------------------------
+   Styled components
+--------------------------- */
+
+const Wrapper = styled(Card)`
   display: grid;
   gap: 12px;
 `;
@@ -72,6 +72,10 @@ const Error = styled.p`
   margin: 0;
   font-weight: 700;
 `;
+
+/* ---------------------------
+   Component
+--------------------------- */
 
 export default function AuthForm() {
   const {
