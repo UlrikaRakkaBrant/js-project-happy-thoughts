@@ -4,11 +4,10 @@ import styled from "styled-components";
 import { useAuth } from "../../hooks/useAuth";
 
 const Wrapper = styled.section`
+  width: 100%;
   padding: 16px;
-  margin: 0 auto 32px;
   background: var(--form-bg);
   border: 2px solid var(--border-color);
-  border-radius: var(--radius);
   box-shadow: var(--card-shadow);
   display: grid;
   gap: 12px;
@@ -55,23 +54,16 @@ const Button = styled.button`
   border-radius: 999px;
   font-weight: 700;
   cursor: pointer;
-  color: var(--btn-text);
   background: linear-gradient(
     180deg,
     var(--btn-grad-start),
     var(--btn-grad-end)
   );
   box-shadow: 0 2px 0 rgba(0, 0, 0, 0.15);
-  transition: transform 0.15s ease, opacity 0.15s ease;
-
-  &:hover {
-    transform: translateY(-1px);
-  }
 
   &:disabled {
     opacity: 0.5;
     cursor: not-allowed;
-    transform: none;
   }
 `;
 
