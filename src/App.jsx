@@ -150,12 +150,14 @@ export default function App() {
       <GlobalStyles />
       <MockBanner />
 
-      {/* Authentication box (login/signup/logout) */}
-      <AuthForm />
-
       <main>
-        {/* Only logged-in users can post */}
-        <ThoughtForm onSubmit={addThought} submitting={submitting} disabled={!isLoggedIn} />
+        <AuthForm />
+
+        <ThoughtForm
+          onSubmit={addThought}
+          submitting={submitting}
+          disabled={!isLoggedIn}
+        />
 
         <Loader show={loading} />
 
