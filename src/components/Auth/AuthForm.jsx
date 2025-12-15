@@ -55,12 +55,6 @@ const Error = styled.p`
   font-weight: 600;
 `;
 
-const Success = styled.p`
-  color: #0a7a0a;
-  margin: 0;
-  font-weight: 600;
-`;
-
 export default function AuthForm() {
   const {
     login,
@@ -73,38 +67,19 @@ export default function AuthForm() {
   } = useAuth();
 
   const [form, setForm] = useState({ username: "", password: "" });
-  const [successMsg, setSuccessMsg] = useState("");
 
   function handleChange(e) {
     setForm({ ...form, [e.target.name]: e.target.value });
-    setSuccessMsg("");
   }
 
-  async function handleLogin(e) {
+  function handleLogin(e) {
     e.preventDefault();
-    setSuccessMsg("");
-    try {
-      await login(form);
-      setSuccessMsg(`🎉 Welcome back, ${form.username}!`);
-    } catch {
-      // error handled in context
-    }
+    login(form);
   }
 
-  async function handleSignup(e) {
+  function handleSignup(e) {
     e.preventDefault();
-    setSuccessMsg("");
-    try {
-      await signup(form);
-      setSuccessMsg(`🎉 Welcome, ${form.username}!`);
-    } catch {
-      // error handled in context
-    }
-  }
-
-  function handleLogout() {
-    logout();
-    setSuccessMsg("");
+    signup(form);
   }
 
   if (isLoggedIn) {
@@ -113,7 +88,7 @@ export default function AuthForm() {
         <p>
           Logged in as <strong>{user.username}</strong>
         </p>
-        <Button type="button" onClick={handleLogout}>
+        <Button type="button" onClick={logout}>
           Log out
         </Button>
       </Wrapper>
@@ -124,7 +99,6 @@ export default function AuthForm() {
     <Wrapper>
       <h2>Login or sign up</h2>
 
-      {successMsg && <Success>{successMsg}</Success>}
       {authError && <Error>{authError}</Error>}
 
       <form>
