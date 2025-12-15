@@ -1,7 +1,16 @@
 // src/components/Auth/AuthForm.jsx
 import { useState } from "react";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import { useAuth } from "../../hooks/useAuth";
+
+// --- Shake animation when auth fails ---
+const shake = keyframes`
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-6px); }
+  40% { transform: translateX(6px); }
+  60% { transform: translateX(-4px); }
+  80% { transform: translateX(4px); }
+`;
 
 const Wrapper = styled.section`
   max-width: 500px;
@@ -12,6 +21,9 @@ const Wrapper = styled.section`
   box-shadow: var(--card-shadow);
   display: grid;
   gap: 16px;
+
+  /* Shake when there's an error */
+  ${({ $error }) => $error && `animation: ${shake} 0.35s ease;`}
 `;
 
 const Row = styled.div`
@@ -25,14 +37,11 @@ const Label = styled.label`
 
 const Input = styled.input`
   padding: 10px;
-  border: 2px solid var(--border-color);
+  border: 2px solid
+    ${({ $error }) => ($error ? "#c00" : "var(--border-color)")};
+  background: ${({ $error }) => ($error ? "#ffe5e5" : "white")};
   border-radius: 0;
-  background: white;
   font-size: 16px;
-
-  &:focus {
-    outline: 2px solid var(--heart-bg-active);
-  }
 `;
 
 const ButtonRow = styled.div`
@@ -47,10 +56,6 @@ const Button = styled.button`
   cursor: pointer;
   font-weight: 600;
 
-  &:hover {
-    background: var(--heart-bg-empty);
-  }
-
   &:disabled {
     opacity: 0.5;
     cursor: not-allowed;
@@ -60,26 +65,38 @@ const Button = styled.button`
 const Error = styled.p`
   color: #c00;
   margin: 0;
+  font-weight: 600;
+`;
+
+// A small green success message
+const Success = styled.p`
+  color: #0a7a0a;
+  font-weight: 600;
+  margin: 0 0 8px 0;
 `;
 
 export default function AuthForm() {
   const { login, signup, authError, authLoading, isLoggedIn, user, logout } =
     useAuth();
-
   const [form, setForm] = useState({ username: "", password: "" });
+  const [justSignedIn, setJustSignedIn] = useState(false);
 
   function handleChange(e) {
     setForm({ ...form, [e.target.name]: e.target.value });
   }
 
-  function handleLogin(e) {
+  async function handleLogin(e) {
     e.preventDefault();
-    login(form);
+    setJustSignedIn(false);
+    await login(form);
+    if (!authError) setJustSignedIn(true);
   }
 
-  function handleSignup(e) {
+  async function handleSignup(e) {
     e.preventDefault();
-    signup(form);
+    setJustSignedIn(false);
+    await signup(form);
+    if (!authError) setJustSignedIn(true);
   }
 
   if (isLoggedIn) {
@@ -88,16 +105,18 @@ export default function AuthForm() {
         <p>
           Logged in as <strong>{user?.username}</strong>
         </p>
-        <Button type="button" onClick={logout}>
-          Log out
-        </Button>
+        <Button type="button" onClick={logout}>Log out</Button>
       </Wrapper>
     );
   }
 
   return (
-    <Wrapper>
-      <h2 style={{ margin: 0 }}>Login or sign up</h2>
+    <Wrapper $error={!!authError}>
+      <h2>Login or sign up</h2>
+
+      {justSignedIn && (
+        <Success>🎉 Welcome, {form.username}! You're now logged in.</Success>
+      )}
 
       <form>
         <Row>
@@ -107,6 +126,7 @@ export default function AuthForm() {
             name="username"
             value={form.username}
             onChange={handleChange}
+            $error={!!authError}
           />
         </Row>
 
@@ -118,6 +138,7 @@ export default function AuthForm() {
             type="password"
             value={form.password}
             onChange={handleChange}
+            $error={!!authError}
           />
         </Row>
 
