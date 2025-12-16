@@ -9,12 +9,13 @@ import { Card } from "../../styles/Card";
 --------------------------- */
 
 const Wrapper = styled(Card)`
+  background: var(--auth-bg);
   display: grid;
   gap: 12px;
 
   form {
     display: grid;
-    gap: 12px;   /* 👈 THIS is the missing spacing */
+    gap: 12px;   
     margin: 0;
   }
 `;

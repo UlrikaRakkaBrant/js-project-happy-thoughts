@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { Card as BaseCard } from "../../styles/Card";
 
 export const Card = styled(BaseCard)`
+  background: var(--thought-card-bg);
   display: grid;
   gap: 14px;
 `;

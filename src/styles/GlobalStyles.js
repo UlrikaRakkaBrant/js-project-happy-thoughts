@@ -4,9 +4,10 @@ import { createGlobalStyle } from "styled-components";
 const GlobalStyles = createGlobalStyle`
   :root {
     /* 🎨 Color system */
-    --card-bg: #ffffff;           /* Thought cards background */
+    --thought-card-bg: #ffffff;    /* Thought cards background */
     --form-bg: #ebe7e7ff;           /* ThoughtForm background */
     --border-color: #000000;     /* solid black border */
+    --auth-bg: rgba(253, 208, 5, 1);          /* AuthForm */
     --text: #222;                 /* Primary text color */
     --muted: #666;                /* Secondary text color */
     --heart: #ff6b8b;             /* Heart emoji color */
