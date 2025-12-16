@@ -1,11 +1,8 @@
 import styled from "styled-components";
 
-export const FormWrap = styled.form`
-  padding: 16px;
-  background: var(--form-bg);              /* light gray background */
-  border: 2px solid var(--border-color);   /* thicker border */
-  border-radius: var(--radius);            /* sharp corners */
-  box-shadow: var(--card-shadow);
+import { Card as BaseCard } from "../../styles/Card";
+
+export const FormWrap = styled(BaseCard).attrs({ as: "form" })`
   display: grid;
   gap: 12px;
 `;

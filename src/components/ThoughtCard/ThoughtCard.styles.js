@@ -1,13 +1,11 @@
 // src/components/ThoughtCard/ThoughtCard.styles.js
 import styled from "styled-components";
 
-export const Card = styled.article`
-  padding: 18px;
+import { Card as BaseCard } from "../../styles/Card";
+
+export const Card = styled(BaseCard)`
   display: grid;
   gap: 14px;
-  background: var(--card-bg);
-  border: 2px solid var(--border-color);
-  box-shadow: var(--card-shadow);
 `;
 
 export const Text = styled.p`
