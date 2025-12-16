@@ -7,7 +7,7 @@ const GlobalStyles = createGlobalStyle`
     --thought-card-bg: #ffffff;    /* Thought cards background */
     --form-bg: #ebe7e7ff;           /* ThoughtForm background */
     --border-color: #000000;     /* solid black border */
-    --auth-bg: rgba(253, 208, 5, 1);          /* AuthForm */
+    --auth-bg: rgba(245, 230, 244, 1);          /* AuthForm */
     --text: #222;                 /* Primary text color */
     --muted: #666;                /* Secondary text color */
     --heart: #ff6b8b;             /* Heart emoji color */
@@ -52,16 +52,6 @@ const GlobalStyles = createGlobalStyle`
     gap: 24px;
   }
 
-  /* 🧩 Base card style */
-  .card {
-    border: 1px solid var(--border-color);
-    box-shadow: var(--card-shadow);
-  }
-
-  /* 🎯 Override specifically for ThoughtForm */
-  form.card {
-    background: var(--form-bg);
-  }
 `;
 
 export default GlobalStyles;
