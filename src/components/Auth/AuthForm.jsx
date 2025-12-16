@@ -11,6 +11,12 @@ import { Card } from "../../styles/Card";
 const Wrapper = styled(Card)`
   display: grid;
   gap: 12px;
+
+  form {
+    display: grid;
+    gap: 12px;   /* 👈 THIS is the missing spacing */
+    margin: 0;
+  }
 `;
 
 const Header = styled.h2`
