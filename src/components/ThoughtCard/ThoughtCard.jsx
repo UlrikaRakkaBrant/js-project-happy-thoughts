@@ -21,18 +21,6 @@ function timeAgo(date) {
   return `${h} hour${h === 1 ? "" : "s"} ago`;
 }
 
-/**
- * Props:
- *  - message, hearts, createdAt, author
- *  - onHeart, disabled
- *  - canEdit (boolean)
- *  - onEdit, onDelete
- *  - isEditing (optional)
- *  - editValue, onEditChange, onEditSave, onEditCancel (optional)
- *
- * You already use: message, hearts, createdAt, author, onHeart, disabled, canEdit, onEdit, onDelete.
- * The edit-field props are optional – if you don’t pass them, input won’t show.
- */
 export default function ThoughtCard({
   message,
   hearts,

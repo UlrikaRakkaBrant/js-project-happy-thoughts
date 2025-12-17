@@ -25,7 +25,7 @@ export async function fetchThoughts() {
 
   const data = await res.json();
 
-  // Your backend returns { total, page, limit, results }
+  // Backend returns { total, page, limit, results }
   return Array.isArray(data.results) ? data.results : [];
 }
 
@@ -47,7 +47,7 @@ export async function createThought(message) {
   const data = await res.json().catch(() => ({}));
 
   if (!res.ok) {
-    // Your API hopefully sends something like { message: "..." } or { errors: ... }
+    // API hopefully sends something like { message: "..." } or { errors: ... }
     throw new Error(data.message || "Failed to create thought");
   }
 
