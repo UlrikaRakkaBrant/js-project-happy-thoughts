@@ -1,12 +1,11 @@
-markdown
 # 💖 Happy Thoughts
 
 > _“Sharing happiness, one thought at a time.”_
 
 A joyful mini social feed built with **React**, **Vite**, and **styled-components**.  
-Happy Thoughts lets you post short positive messages, like others’ posts, and spread a bit of joy.
+Happy Thoughts lets users post short positive messages, like others’ posts, and spread a bit of joy — now backed by a **custom REST API with authentication**.
 
-🌐 **Live demo:** [https://thinkhappy.netlify.app](https://thinkhappy.netlify.app)
+🌐 **Live demo:** https://thinkhappy.netlify.app
 
 ---
 
@@ -18,144 +17,177 @@ Happy Thoughts lets you post short positive messages, like others’ posts, and 
 
 ## ✨ Features
 
-- 💬 Post short thoughts (5–140 characters)  
-- ❤️ Like any thought with a heart button  
-- 🕒 See how long ago each thought was posted  
-- 🔄 Auto-refresh after posting new thoughts  
-- 🧭 Mock mode for offline development  
-- 💡 Clean, responsive, and accessible design  
-- 🚀 Deployed on Netlify and connected to a public Happy Thoughts API  
+- 💬 Post short thoughts (5–140 characters)
+- ❤️ Like thoughts (authentication required)
+- 🕒 See how long ago each thought was posted
+- 🔐 Sign up and log in with username + password
+- 🧾 JWT-based authentication (stored in localStorage)
+- ✏️ Edit and 🗑️ delete your own thoughts
+- 👁️ Conditional UI (edit/delete only visible for owner)
+- 🧭 Mock mode for offline development
+- 💡 Clean, responsive, and accessible design
+- 🚀 Deployed frontend on Netlify, backend on Render
 
 ---
 
 ## 🧠 Tech Stack
 
 | Technology | Purpose |
-|-------------|----------|
-| ⚛️ React (Vite) | Core UI framework |
-| 💅 styled-components | Scoped styling and theming |
-| 🧭 Fetch API | Communicating with backend |
-| ☁️ Netlify | Hosting and build |
-| 🧩 Render | Public Happy Thoughts API |
-| 🧪 ESLint + Vite | Developer experience and linting |
+|-----------|--------|
+| ⚛️ React (Vite) | Frontend framework |
+| 💅 styled-components | Component-scoped styling |
+| 🧠 React Context | Authentication state |
+| 🌐 Fetch API | Backend communication |
+| 🧩 Express + MongoDB | Custom REST API |
+| 🔐 JWT | Authentication |
+| ☁️ Netlify | Frontend hosting |
+| ☁️ Render | Backend hosting |
 
 ---
 
-## 🪄 Getting Started
+## 🔐 Authentication
 
-1️⃣ Install dependencies  
-→ `npm install`
+The app includes a full authentication flow:
 
-2️⃣ Start the app locally  
-→ `npm run dev`  
-App runs at **http://localhost:5173**
+- Sign up with username and password
+- Log in to receive a JWT token
+- Token is stored in `localStorage`
+- Protected actions:
+  - Create thought
+  - Like thought
+  - Edit own thought
+  - Delete own thought
 
-3️⃣ Build for production  
-→ `npm run build`
-
-4️⃣ Preview the build  
-→ `npm run preview`
+Logged-out users can still **read** thoughts.
 
 ---
 
 ## 🔗 API
 
-This app uses a **public Happy Thoughts API**:
+This app uses a **custom-built Happy Thoughts API**.
 
-Base URL:  
-https://happy-thoughts-api-4ful.onrender.com
+**Base URL:**  
+https://js-project-api-j7vv.onrender.com
+
+### Auth routes
 
 Method | Endpoint | Description
--------|-----------|-------------
-GET | /thoughts | Fetch latest 20 thoughts
-POST | /thoughts | Post a new thought
-POST | /thoughts/:id/like | Like a thought
+------|----------|------------
+POST | `/auth/signup` | Create new user
+POST | `/auth/login` | Log in user
+
+### Thought routes
+
+Method | Endpoint | Description
+------|----------|------------
+GET | `/thoughts` | Fetch latest thoughts
+POST | `/thoughts` | Create new thought (auth required)
+POST | `/thoughts/:id/like` | Like a thought (auth required)
+PATCH | `/thoughts/:id` | Edit own thought
+DELETE | `/thoughts/:id` | Delete own thought
 
 ---
 
-## ⚙️ Dev Proxy (for CORS)
+## 🪄 Getting Started
 
-server: {
-  proxy: {
-    '/api': {
-      target: 'https://happy-thoughts-api-4ful.onrender.com',
-      changeOrigin: true,
-      secure: true,
-      rewrite: (path) => path.replace(/^\/api/, ''),
-    },
-  },
-},
+1. Install dependencies  
+   ```bash
+   npm install
+   ```
+
+2. Start the app locally  
+   ```bash
+   npm run dev
+   ```
+   Runs at **http://localhost:5173**
+
+3. Build for production  
+   ```bash
+   npm run build
+   ```
+
+4. Preview production build  
+   ```bash
+   npm run preview
+   ```
 
 ---
 
-## 🧠 Mock Mode (Offline Dev)
+## 🧪 Mock Mode (Offline Development)
 
-When the API is down, you can still work with local fake data.
+When the backend API is unavailable, you can enable mock data:
 
-src/services/apiBase.js
-export const USE_MOCK = true; // switch ON mock mode
-export const API_BASE = '/api';
+```js
+// src/services/apiBase.js
+export const USE_MOCK = true;
+```
 
 ---
 
-## 🚀 Deployment (Netlify)
+## 🚀 Deployment
 
-Build command: npm run build  
-Publish directory: dist  
-Base directory: *(leave empty)*
+### Frontend (Netlify)
 
-No proxy or redirects are required.
+- Build command: `npm run build`
+- Publish directory: `dist`
+- No proxy or redirects required
+
+### Backend (Render)
+
+- Node + Express API
+- MongoDB database
+- JWT authentication
+- Environment variables handled via Render dashboard
 
 ---
 
 ## 📱 Responsiveness
 
-| Device | Width | Behavior |
-|---------|--------|-----------|
-| 📱 Mobile | up to 480px | Stacked layout with large tap targets |
-| 💻 Tablet | ≥ 768px | Balanced grid and spacing |
-| 🖥️ Desktop | ≥ 1024px | Centered container and max-width |
-| 🖥️ XL screens | ≥ 1440px | Fluid layout for readability |
+| Device | Behavior |
+|------|----------|
+| 📱 Mobile | Stacked layout, large tap targets |
+| 💻 Tablet | Balanced spacing |
+| 🖥️ Desktop | Centered container with max-width |
 
 ---
 
 ## ♿ Accessibility
 
-✔ Visible focus outlines  
-✔ `aria-label` for icons (heart button ❤️)  
-✔ High color contrast and readable fonts  
-✔ Semantic HTML (headings, buttons, forms)  
-✔ Keyboard accessible navigation  
+✔ Semantic HTML  
+✔ Keyboard-accessible buttons and forms  
+✔ Visible focus states  
+✔ High color contrast  
+✔ ARIA labels for icon buttons  
 
 ---
 
-## 🪴 Stretch Goals
+## 🪴 Stretch Goals / Future Improvements
 
-🌟 Track how many **unique posts** the user has liked (using localStorage)  
-🌟 Add animations for posting or liking  
-🌟 Show “No thoughts yet” state  
-🌟 Add dark mode toggle  
+- 🌟 Track unique likes per user
+- 🌟 Animations for posting and liking
+- 🌟 Empty-state UI
+- 🌟 Dark mode toggle
 
 ---
 
 ## 👩‍💻 Author
 
-Built with 💖, ☕, curiosity, and collaborative help from **ChatGPT** by **Ulrika Einerbrant**.  
+Built with 💖, ☕, curiosity, and persistence by  
+**Ulrika Einerbrant**
+
 Frontend developer passionate about accessible, joyful user experiences.
-
-> _“Sharing happiness, one thought at a time.”_
-
----
-
-## 🪶 License
-
-This project is open source and available under the **MIT License**.
 
 ---
 
 ## 💫 Connect
 
-🔗 **Live app:** [thinkhappy.netlify.app](https://thinkhappy.netlify.app)  
-💻 **GitHub repo:** [github.com/ulrikaeinerbrant/happy-thoughts](https://github.com/ulrikaeinerbrant/happy-thoughts)  
-🧭 **Portfolio:** [ulrikasportfolio.netlify.app](https://ulrikasportfolio.netlify.app/)  
-💼 **LinkedIn:** [ulrika-einebrant](https://www.linkedin.com/in/ulrika-einebrant/)
+🔗 **Live app:** https://thinkhappy.netlify.app  
+💻 **GitHub repo:** https://github.com/UlrikaRakkaBrant/js-project-happy-thoughts  
+🧭 **Portfolio:** https://ulrikasportfolio.netlify.app  
+💼 **LinkedIn:** https://www.linkedin.com/in/ulrika-einerbrant/
+
+---
+
+## 🪶 License
+
+MIT License
