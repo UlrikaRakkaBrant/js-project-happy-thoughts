@@ -15,6 +15,15 @@ Happy Thoughts lets users post short positive messages, like others’ posts, an
 
 ---
 
+## What This Project Shows
+- Fullstack development from UI to database
+- Authentication and authorization with JWT
+- Ownership-based permissions
+- Accessibility-conscious UI decisions
+- Deployment of both frontend and backend
+
+---
+
 ## ✨ Features
 
 - 💬 Post short thoughts (5–140 characters)
